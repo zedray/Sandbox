@@ -7,8 +7,6 @@ public class LinkedList {
 		final Node linkedList = new Node(new Node(new Node(null, "C"), "B"), "A");
 
 		// Solution
-		int numberOfSteps = Integer.MAX_VALUE;
-
 		System.out.println("Data " + getData(linkedList));
 		System.out.println("Cost " + getCost(linkedList));
 	}
