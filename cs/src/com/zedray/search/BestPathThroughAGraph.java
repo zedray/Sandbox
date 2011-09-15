@@ -1,12 +1,16 @@
 package com.zedray.search;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
+
+import com.zedray.search.BreathFirstSearch.Rectangle;
 
 /***
  * Breath First Search puzzle.
  */
-public final class BreathFirstSearch {
+public final class BestPathThroughAGraph {
 
     /** Board size X. **/
     private static final int X = 20;
@@ -18,7 +22,7 @@ public final class BreathFirstSearch {
     /***
      * Private constructor.
      */
-    private BreathFirstSearch() {
+    private BestPathThroughAGraph() {
         // Do nothing.
     }
 
@@ -28,7 +32,7 @@ public final class BreathFirstSearch {
      * @param args Command line arguments.
      */
     public static void main(final String[] args) {
-        System.out.println("Start " + BreathFirstSearch.class.getName());
+        System.out.println("Start " + BestPathThroughAGraph.class.getName());
         long time = System.currentTimeMillis();
         mIterations = 0;
         System.out.println(getNumberOfSteps(new Node(0, 0, X - 1, Y - 1, 0),
@@ -38,6 +42,19 @@ public final class BreathFirstSearch {
                 + mIterations + "]");
     }
 
+
+    public static class NodeComparator implements Comparator<Node> {
+
+    	@Override
+    	public int compare(Node node1, Node node2) {
+    		if (((Node) node1).getDistance() >= ((Node) node2).getDistance()) {
+    			return +1;
+    		} else {
+    			return 1;
+    		}
+    	}
+    }
+    
     /***
      * Return number of steps required to reach final state.
      *
@@ -48,12 +65,12 @@ public final class BreathFirstSearch {
     private static int getNumberOfSteps(final Node startNode,
             final boolean[][] board) {
         boolean[][][][] visited = new boolean[X][Y][X][Y];
-
-        List<Node> queue = new ArrayList<Node>();
-        queue.add(startNode);
-
-        while (!queue.isEmpty()) {
-            Node top = queue.remove(0);
+        
+        TreeSet<Node> priorityQueue = new TreeSet<Node>(new NodeComparator());
+        priorityQueue.add(startNode);
+        
+        while (!priorityQueue.isEmpty()) {
+            Node top = priorityQueue.pollFirst();
             if (top.mPlayer1X < 0 || top.mPlayer1X >= X
                     || top.mPlayer1Y < 0 || top.mPlayer1Y >= Y) {
                 // Player 1 out of bounds
@@ -86,7 +103,7 @@ public final class BreathFirstSearch {
                     && startNode.mPlayer1Y == top.mPlayer2Y
                     && startNode.mPlayer2X == top.mPlayer1X
                     && startNode.mPlayer2Y == top.mPlayer1Y) {
-                System.out.println("Nodes remaing [" + queue.size() + "]");
+                System.out.println("Nodes remaing [" + priorityQueue.size() + "]");
                 return top.mSteps;
             }
 
@@ -103,7 +120,7 @@ public final class BreathFirstSearch {
                             }
 
                             // If not, add to stack.
-                            queue.add(new Node(
+                            priorityQueue.add(new Node(
                                     top.mPlayer1X + player1XDelta,
                                     top.mPlayer1Y + player1YDelta,
                                     top.mPlayer2X + player2XDelta,
@@ -143,6 +160,10 @@ public final class BreathFirstSearch {
             mPlayer2X = player2X;
             mPlayer2Y = player2Y;
             mSteps = steps;
+        }
+
+        public int getDistance() {
+        	return X - mPlayer1X + Y - mPlayer1Y + mPlayer2X + mPlayer2Y;
         }
 
         public String toString() {
