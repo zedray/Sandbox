@@ -1,11 +1,8 @@
+
 package com.zedray.search;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.TreeSet;
-
-import com.zedray.search.BreathFirstSearch.Rectangle;
 
 /***
  * Breath First Search puzzle.
@@ -14,8 +11,10 @@ public final class BestPathThroughAGraph {
 
     /** Board size X. **/
     private static final int X = 20;
+
     /** Board size Y. **/
     private static final int Y = 20;
+
     /** Number of iterations. **/
     private static int mIterations;
 
@@ -38,23 +37,25 @@ public final class BestPathThroughAGraph {
         System.out.println(getNumberOfSteps(new Node(0, 0, X - 1, Y - 1, 0),
                 getFillArray()));
         System.out.println("Done " + X * Y + " results in "
-                + (System.currentTimeMillis() - time) + "ms Iterations["
-                + mIterations + "]");
+                + (System.currentTimeMillis() - time)
+                + "ms Iterations[" + mIterations + "]");
     }
 
-
+    /***
+     * Comparator for comparing nodes.
+     */
     public static class NodeComparator implements Comparator<Node> {
 
-    	@Override
-    	public int compare(Node node1, Node node2) {
-    		if (((Node) node1).getDistance() >= ((Node) node2).getDistance()) {
-    			return +1;
-    		} else {
-    			return 1;
-    		}
-    	}
+        @Override
+        public final int compare(final Node node1, final Node node2) {
+            if (((Node) node1).getDistance() >= ((Node) node2).getDistance()) {
+                return +1;
+            } else {
+                return 1;
+            }
+        }
     }
-    
+
     /***
      * Return number of steps required to reach final state.
      *
@@ -65,10 +66,10 @@ public final class BestPathThroughAGraph {
     private static int getNumberOfSteps(final Node startNode,
             final boolean[][] board) {
         boolean[][][][] visited = new boolean[X][Y][X][Y];
-        
+
         TreeSet<Node> priorityQueue = new TreeSet<Node>(new NodeComparator());
         priorityQueue.add(startNode);
-        
+
         while (!priorityQueue.isEmpty()) {
             Node top = priorityQueue.pollFirst();
             if (top.mPlayer1X < 0 || top.mPlayer1X >= X
@@ -97,25 +98,32 @@ public final class BestPathThroughAGraph {
                 visited[top.mPlayer1X][top.mPlayer1Y]
                                        [top.mPlayer2X][top.mPlayer2Y] = true;
             }
-//            System.out.println("Check " + top.toString());
-        	mIterations++;
+            // System.out.println("Check " + top.toString());
+            mIterations++;
             if (startNode.mPlayer1X == top.mPlayer2X
                     && startNode.mPlayer1Y == top.mPlayer2Y
                     && startNode.mPlayer2X == top.mPlayer1X
                     && startNode.mPlayer2Y == top.mPlayer1Y) {
-                System.out.println("Nodes remaing [" + priorityQueue.size() + "]");
+                System.out.println("Nodes remaing [" + priorityQueue.size()
+                        + "]");
                 return top.mSteps;
             }
 
             for (int player1XDelta = -1; player1XDelta <= 1; player1XDelta++) {
-                for (int player1YDelta = -1; player1YDelta <= 1; player1YDelta++) {
-                    for (int player2XDelta = -1; player2XDelta <= 1; player2XDelta++) {
-                        for (int player2YDelta = -1; player2YDelta <= 1; player2YDelta++) {
+                for (int player1YDelta = -1; player1YDelta <= 1;
+                player1YDelta++) {
+                    for (int player2XDelta = -1; player2XDelta <= 1;
+                    player2XDelta++) {
+                        for (int player2YDelta = -1; player2YDelta <= 1;
+                        player2YDelta++) {
                             // Did we swap positions?
                             if (top.mPlayer2X == top.mPlayer1X + player1XDelta
-                                    || top.mPlayer2Y == top.mPlayer1Y + player1YDelta
-                                    || top.mPlayer1X == top.mPlayer2X + player2XDelta
-                                    || top.mPlayer1Y == top.mPlayer2Y + player2YDelta) {
+                                    || top.mPlayer2Y == top.mPlayer1Y
+                                        + player1YDelta
+                                    || top.mPlayer1X == top.mPlayer2X
+                                        + player2XDelta
+                                    || top.mPlayer1Y == top.mPlayer2Y
+                                        + player2YDelta) {
                                 continue;
                             }
 
@@ -153,8 +161,8 @@ public final class BestPathThroughAGraph {
          * @param player2Y Player 2 Y coordinate.
          * @param steps Number of steps taken
          */
-        public Node(int player1X, int player1Y, int player2X, int player2Y,
-                int steps) {
+        public Node(final int player1X, final int player1Y, final int player2X,
+                final int player2Y, int steps) {
             mPlayer1X = player1X;
             mPlayer1Y = player1Y;
             mPlayer2X = player2X;
@@ -162,8 +170,14 @@ public final class BestPathThroughAGraph {
             mSteps = steps;
         }
 
-        public int getDistance() {
-        	return X - mPlayer1X + Y - mPlayer1Y + mPlayer2X + mPlayer2Y;
+        /***
+         * Return the distance this node is from the goal (used for sorting
+         * search options).
+         *
+         * @return Distance this node is from the goal.
+         */
+        public final int getDistance() {
+            return X - mPlayer1X + Y - mPlayer1Y + mPlayer2X + mPlayer2Y;
         }
 
         public String toString() {
@@ -214,7 +228,7 @@ public final class BestPathThroughAGraph {
      *
      * @param fill Fill array.
      */
-    private static void print(boolean[][] fill) {
+    private static void print(final boolean[][] fill) {
         for (int i = 0; i < X; i++) {
             StringBuilder x = new StringBuilder();
 
@@ -236,7 +250,8 @@ public final class BestPathThroughAGraph {
         /** Rectangle coordinates. **/
         int mLeft, mTop, mRight, mBottom;
 
-        public Rectangle(int left, int top, int right, int bottom) {
+        public Rectangle(final int left, final int top, final int right,
+                final int bottom) {
             mLeft = left;
             mTop = top;
             mRight = right;

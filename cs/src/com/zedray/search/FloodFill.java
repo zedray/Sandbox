@@ -102,7 +102,7 @@ public final class FloodFill {
         /** Node coordinates. **/
         int mX, mY;
 
-        public Node(int x, int y) {
+        public Node(final int x, final int y) {
             mX = x;
             mY = y;
         }
@@ -112,6 +112,9 @@ public final class FloodFill {
      * Fill the given array recursively.
      * Memory overload at around ~8000 cells.
      *
+     * @param fillArray Array to fill.
+     * @param x Start position x.
+     * @param y Start position y.
      * @return Filled array.
      */
     private static boolean[][] fillRecursive(boolean[][] fillArray,
@@ -159,7 +162,8 @@ public final class FloodFill {
         /** Rectangle coordinates. **/
         int mLeft, mTop, mRight, mBottom;
 
-        public Rectangle(int left, int top, int right, int bottom) {
+        public Rectangle(final int left, final int top, final int right,
+                final int bottom) {
             mLeft = left;
             mTop = top;
             mRight = right;

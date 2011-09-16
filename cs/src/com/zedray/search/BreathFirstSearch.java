@@ -1,3 +1,4 @@
+
 package com.zedray.search;
 
 import java.util.ArrayList;
@@ -10,8 +11,10 @@ public final class BreathFirstSearch {
 
     /** Board size X. **/
     private static final int X = 20;
+
     /** Board size Y. **/
     private static final int Y = 20;
+
     /** Number of iterations. **/
     private static int mIterations;
 
@@ -34,8 +37,8 @@ public final class BreathFirstSearch {
         System.out.println(getNumberOfSteps(new Node(0, 0, X - 1, Y - 1, 0),
                 getFillArray()));
         System.out.println("Done " + X * Y + " results in "
-                + (System.currentTimeMillis() - time) + "ms Iterations["
-                + mIterations + "]");
+                + (System.currentTimeMillis() - time)
+                + "ms Iterations[" + mIterations + "]");
     }
 
     /***
@@ -80,8 +83,8 @@ public final class BreathFirstSearch {
                 visited[top.mPlayer1X][top.mPlayer1Y]
                                        [top.mPlayer2X][top.mPlayer2Y] = true;
             }
-//            System.out.println("Check " + top.toString());
-        	mIterations++;
+            // System.out.println("Check " + top.toString());
+            mIterations++;
             if (startNode.mPlayer1X == top.mPlayer2X
                     && startNode.mPlayer1Y == top.mPlayer2Y
                     && startNode.mPlayer2X == top.mPlayer1X
@@ -91,20 +94,25 @@ public final class BreathFirstSearch {
             }
 
             for (int player1XDelta = -1; player1XDelta <= 1; player1XDelta++) {
-                for (int player1YDelta = -1; player1YDelta <= 1; player1YDelta++) {
-                    for (int player2XDelta = -1; player2XDelta <= 1; player2XDelta++) {
-                        for (int player2YDelta = -1; player2YDelta <= 1; player2YDelta++) {
+                for (int player1YDelta = -1; player1YDelta <= 1;
+                player1YDelta++) {
+                    for (int player2XDelta = -1; player2XDelta <= 1;
+                    player2XDelta++) {
+                        for (int player2YDelta = -1; player2YDelta <= 1;
+                        player2YDelta++) {
                             // Did we swap positions?
                             if (top.mPlayer2X == top.mPlayer1X + player1XDelta
-                                    || top.mPlayer2Y == top.mPlayer1Y + player1YDelta
-                                    || top.mPlayer1X == top.mPlayer2X + player2XDelta
-                                    || top.mPlayer1Y == top.mPlayer2Y + player2YDelta) {
+                                    || top.mPlayer2Y == top.mPlayer1Y
+                                    + player1YDelta
+                                    || top.mPlayer1X == top.mPlayer2X
+                                    + player2XDelta
+                                    || top.mPlayer1Y == top.mPlayer2Y
+                                    + player2YDelta) {
                                 continue;
                             }
 
                             // If not, add to stack.
-                            queue.add(new Node(
-                                    top.mPlayer1X + player1XDelta,
+                            queue.add(new Node(top.mPlayer1X + player1XDelta,
                                     top.mPlayer1Y + player1YDelta,
                                     top.mPlayer2X + player2XDelta,
                                     top.mPlayer2Y + player2YDelta,
@@ -136,8 +144,8 @@ public final class BreathFirstSearch {
          * @param player2Y Player 2 Y coordinate.
          * @param steps Number of steps taken
          */
-        public Node(int player1X, int player1Y, int player2X, int player2Y,
-                int steps) {
+        public Node(final int player1X, final int player1Y, final int player2X,
+                final int player2Y, final int steps) {
             mPlayer1X = player1X;
             mPlayer1Y = player1Y;
             mPlayer2X = player2X;
@@ -145,7 +153,7 @@ public final class BreathFirstSearch {
             mSteps = steps;
         }
 
-        public String toString() {
+        public final String toString() {
             StringBuilder sb = new StringBuilder();
             sb.append("Node p1[");
             sb.append(mPlayer1X);
@@ -193,7 +201,7 @@ public final class BreathFirstSearch {
      *
      * @param fill Fill array.
      */
-    private static void print(boolean[][] fill) {
+    private static void print(final boolean[][] fill) {
         for (int i = 0; i < X; i++) {
             StringBuilder x = new StringBuilder();
 
@@ -215,7 +223,8 @@ public final class BreathFirstSearch {
         /** Rectangle coordinates. **/
         int mLeft, mTop, mRight, mBottom;
 
-        public Rectangle(int left, int top, int right, int bottom) {
+        public Rectangle(final int left, final int top, final int right,
+                final int bottom) {
             mLeft = left;
             mTop = top;
             mRight = right;
