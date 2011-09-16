@@ -48,8 +48,9 @@ public final class BestPathThroughAGraph {
 
         @Override
         public final int compare(final Node node1, final Node node2) {
-            if (((Node) node1).getDistance() >= ((Node) node2).getDistance()) {
-                return +1;
+            if (((Node) node1).getDistance() - ((Node) node1).mSteps
+                    >= ((Node) node2).getDistance() - ((Node) node2).mSteps) {
+                return -1;
             } else {
                 return 1;
             }
