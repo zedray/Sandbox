@@ -1,12 +1,12 @@
 package com.zedray.sort;
 
 /***
- * Bubble sort.
+ * Insertion sort.
  *
- * Always sort in (n-1)² iterations.
- * O(n²) in-place (i.e. with no extra memory).
+ * Sort between n and (n-1)² iterations.
+ * O(n) best or O(n²) worst, in-place with no extra memory.
  */
-public final class BubbleSort {
+public final class InsertionSort {
 
     /** Number of iterations. **/
     private static int mIterations;
@@ -14,7 +14,7 @@ public final class BubbleSort {
     /***
      * Private constructor.
      */
-    private BubbleSort() {
+    private InsertionSort() {
         // Do nothing.
     }
 
@@ -24,7 +24,7 @@ public final class BubbleSort {
      * @param args Command line arguments.
      */
     public static void main(final String[] args) {
-        System.out.println("Start " + BubbleSort.class.getName());
+        System.out.println("Start " + InsertionSort.class.getName());
         sort(SortUtils.BEST, "BEST");
         sort(SortUtils.WORST, "WORST");
         sort(SortUtils.RANDOM, "RANDOM");
@@ -39,7 +39,7 @@ public final class BubbleSort {
     private static void sort(final int[] data, final String label) {
         long time = System.currentTimeMillis();
         mIterations = 0;
-        SortUtils.printArray(bubbleSort(data));
+        SortUtils.printArray(insertionSort(data));
         System.out.println(label + " done " + data.length + " values in "
                 + (System.currentTimeMillis() - time)
                 + "ms or Iterations[" + mIterations + "]");
@@ -51,16 +51,35 @@ public final class BubbleSort {
      * @param data Start data.
      * @return Values sorted with BubbleSort.
      */
-    private static int[] bubbleSort(final int[] data) {
+    private static int[] insertionSort(final int[] data) {
+
+        /**
+         * Range 0-i is sorted.
+         * i-N is unsorted.
+         * Value i is under consideration.
+         */
         for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length - 1; j++) {
+            int j = i;
+
+            /**
+             * Find an element in the sorted part of the array smaller than the
+             * value under consideration.
+             */
+            while (j > 0 && data[i] < data[j - 1]) {
                 mIterations++;
-                if (data[j] > data[j + 1]) {
-                    int temp = data[j];
-                    data[j] = data[j + 1];
-                    data[j + 1] = temp;
-                }
+                j--;
             }
+
+            /**
+             * Add the value under consideration to the sorted array, but first
+             * move all the other values along one to make space.
+             */
+            int temp = data[i]; // Store.
+            for (int k = i; k > j; k--) {
+                mIterations++;
+                data[k] = data[k - 1]; // Move along.
+            }
+            data[j] = temp; // Place value under consideration.
         }
 
         return data;
