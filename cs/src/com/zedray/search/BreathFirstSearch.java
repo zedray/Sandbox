@@ -2,6 +2,7 @@
 package com.zedray.search;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /***
@@ -57,6 +58,9 @@ public final class BreathFirstSearch {
 
         while (!queue.isEmpty()) {
             Node top = queue.remove(0);
+//            Iterator<Node> iterator = queue.iterator();
+//            Node top = iterator.next();
+//            iterator.remove();
             if (top.mPlayer1X < 0 || top.mPlayer1X >= X
                     || top.mPlayer1Y < 0 || top.mPlayer1Y >= Y) {
                 // Player 1 out of bounds
