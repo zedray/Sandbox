@@ -46,10 +46,10 @@ public final class InsertionSort {
     }
 
     /***
-     * Return values sorted with BubbleSort.
+     * Return values sorted with insertion sort.
      *
      * @param data Start data.
-     * @return Values sorted with BubbleSort.
+     * @return Values sorted with insertion sort.
      */
     private static int[] insertionSort(final int[] data) {
 
