@@ -28,6 +28,11 @@ public final class BubbleSort {
         sort(SortUtils.BEST, "BEST");
         sort(SortUtils.WORST, "WORST");
         sort(SortUtils.RANDOM, "RANDOM");
+        sort(SortUtils.getRandom(10), "Random size of 10");
+        sort(SortUtils.getRandom(100), "Random size of 100");
+        sort(SortUtils.getRandom(1000), "Random size of 1,000");
+        sort(SortUtils.getRandom(10000), "Random size of 10,000");
+        System.out.println("Done");
     }
 
     /***
@@ -39,7 +44,7 @@ public final class BubbleSort {
     private static void sort(final int[] data, final String label) {
         long time = System.currentTimeMillis();
         mIterations = 0;
-        SortUtils.printArray(bubbleSort(data));
+        SortUtils.printArray(SortUtils.isSorted(bubbleSort(data)));
         System.out.println(label + " done " + data.length + " values in "
                 + (System.currentTimeMillis() - time)
                 + "ms or Iterations[" + mIterations + "]");

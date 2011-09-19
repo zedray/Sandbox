@@ -1,5 +1,6 @@
 package com.zedray.sort;
 
+import java.util.Comparator;
 import java.util.TreeSet;
 
 /***
@@ -31,6 +32,15 @@ public final class HeapSort {
         sort(SortUtils.BEST, "BEST");
         sort(SortUtils.WORST, "WORST");
         sort(SortUtils.RANDOM, "RANDOM");
+        sort(SortUtils.getRandom(10), "Random size of 10");
+        sort(SortUtils.getRandom(100), "Random size of 100");
+        sort(SortUtils.getRandom(1000), "Random size of 1,000");
+        sort(SortUtils.getRandom(10000), "Random size of 10,000");
+        
+        sort(SortUtils.getRandom(100000), "Random size of 100,000");
+        sort(SortUtils.getRandom(1000000), "Random size of 1,000,000");
+//        sort(SortUtils.getRandom(10000000), "Random size of 10,000,000"); OOM
+        System.out.println("Done");
     }
 
     /***
@@ -42,7 +52,7 @@ public final class HeapSort {
     private static void sort(final int[] data, final String label) {
         long time = System.currentTimeMillis();
         mIterations = 0;
-        SortUtils.printArray(heapSort(data));
+        SortUtils.printArray(SortUtils.isSorted(heapSort(data)));
         System.out.println(label + " done " + data.length + " values in "
                 + (System.currentTimeMillis() - time) + "ms or Iterations["
                 + mIterations + "]");
@@ -60,7 +70,8 @@ public final class HeapSort {
          * Populate sorted data structure "Heap" (i.e. TreeSet in Java) with
          * all the input data.
          **/
-        final TreeSet<Integer> heap = new TreeSet<Integer>();
+        final TreeSet<Integer> heap
+            = new TreeSet<Integer>(new IntegerComparator());
         for (int i = 0; i < data.length; i++) {
             heap.add(data[i]);
             mIterations++;
@@ -76,5 +87,21 @@ public final class HeapSort {
         }
 
         return result;
+    }
+
+    /***
+     * Comparator for comparing Integers while avoiding grouping.
+     */
+    public static class IntegerComparator implements Comparator<Integer> {
+
+        @Override
+        public final int compare(final Integer integer1,
+                final Integer integer2) {
+            if (integer1 < integer2) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
     }
 }
