@@ -6,7 +6,8 @@ import java.util.Arrays;
  * Merge sort.
  *
  * Always sort in (n log n) iterations.
- * O(n log n) with around 2*n space requirement.
+ * O(n log n) with around 2*n space requirement or more with recursion
+ * overhead.
  */
 public final class MergeSort {
 
