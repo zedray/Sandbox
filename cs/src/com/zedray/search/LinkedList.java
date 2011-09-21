@@ -4,6 +4,13 @@ package com.zedray.search;
  * Linked list puzzle.
  */
 public final class LinkedList {
+
+    /** Number of nodes in the LinkedList. **/
+    private static final int NUMBER_OF_NODES = 10;
+
+    /** Number of iterations. **/
+    private static int mIterations;
+
     /***
      * Private constructor.
      */
@@ -18,13 +25,42 @@ public final class LinkedList {
      */
     public static void main(final String[] args) {
 
-        // Problem
-        final Node linkedList = new Node(
-                new Node(new Node(null, "C"), "B"), "A");
+        /** Raw LinkedList. **/
+        System.out.println("Data " + getData(getLinkedList(NUMBER_OF_NODES)));
+        System.out.println("Cost " + getCost(getLinkedList(NUMBER_OF_NODES)));
 
-        // Solution
-        System.out.println("Data " + getData(linkedList));
-        System.out.println("Cost " + getCost(linkedList));
+        /** Reverse the linked list (non-recursive solution). **/
+        mIterations = 0;
+        final Node reverse = reverse(getLinkedList(NUMBER_OF_NODES));
+
+        System.out.println("Iterations " + mIterations);
+        System.out.println("Reverse Data " + getData(reverse));
+        System.out.println("Reverse Cost " + getCost(reverse));
+
+        /** Reverse the linked list(recursive solution . **/
+        mIterations = 0;
+        final Node reverseRecursive
+            = reverseRecursive(getLinkedList(NUMBER_OF_NODES), null);
+
+        System.out.println("Iterations " + mIterations);
+        System.out.println("Reverse recursive Data "
+                + getData(reverseRecursive));
+        System.out.println("Reverse recursive Cost "
+                + getCost(reverseRecursive));
+    }
+
+    /***
+     * Return a LinknedList of the given size.
+     *
+     * @param nodes Required number of nodes.
+     * @return LinknedList of the given size.
+     */
+    private static Node getLinkedList(final int nodes) {
+        Node result = null;
+        for (int i = 0; i < nodes; i++) {
+            result = new Node(result, "[Node " + (nodes - i) + "]");
+        }
+        return result;
     }
 
     /***
@@ -52,6 +88,74 @@ public final class LinkedList {
             return "";
         } else {
             return node.mData + getData(node.mLink);
+        }
+    }
+
+    /***
+     * Reverse the given LinkedList (non-recursive solution).
+     *
+     * @param node Head node.
+     * @return Reversed LinkedList.
+     */
+    private static Node reverse(final Node node) {
+
+        /*
+         * Start with the given node as headNode, and the result as a NULL
+         * node.
+         */
+        Node headNode = node;
+        Node result = null;
+
+        /*
+         * Keep iterating until the headNode is NULL.
+         */
+        while (headNode != null) {
+
+            /* Cache the next linked node. */
+            final Node tempNode = headNode.mLink;
+
+            /*
+             * Remove the headNode and point it to the first node of the
+             * result.
+             */
+            headNode.mLink = result;
+            result = headNode;
+
+            /* Replace the headNode with the cached next linked node. */
+            headNode = tempNode;
+
+            mIterations++;
+        }
+
+        return result;
+    }
+
+    /***
+     * Reverse the given LinkedList (recursive solution).
+     *
+     * @param input Current head node.
+     * @param result Current result (or NULL for first call).
+     * @return Reversed LinkedList.
+     */
+    private static Node reverseRecursive(final Node input, final Node result) {
+        mIterations++;
+
+        if (input != null) {
+            /*
+             * Input queue is not empty, so remove it from the input and make
+             * it the first node of the result.
+             */
+            final Node nextInput = input.mLink;
+            input.mLink = result;
+            final Node nextResult = input;
+
+            /*
+             * Process the remainder of the input.
+             */
+            return reverseRecursive(nextInput, nextResult);
+
+        } else {
+            return result;
         }
     }
 
